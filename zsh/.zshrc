@@ -110,38 +110,53 @@ export EDITOR='mcedit'
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-# LS Customization
-alias ls="eza --group-directories-first --color always --git -g --header --icons"
-alias  l="eza --group-directories-first --color always --git -g --header --icons"
-alias ll="eza --group-directories-first --color always -l --git -g --header --icons"
-alias lt="eza -l --icons --color always --tree --level=3"
-alias la="eza -A --group-directories-first --color always --git -g --header --icons"
-
-# BAT CAT
-alias cat='bat'
-
 # Back Crawls
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
 alias .....='cd ../../../..'
 
-alias z="zi"
-
-if [ -f "~/.zshrc-local" ]; then
-	source ~/.zshrc-local
+# LS Customization with Fallbacks
+if (($+commands[eza])); then 
+    alias ls="eza --group-directories-first --color always --git -g --header --icons"
+    alias l= "eza --group-directories-first --color always --git -g --header --icons"
+    alias ll="eza --group-directories-first --color always -l --git -g --header --icons"
+    alias lt="eza --time modified --sort modified --color always -l --git -g --header --icons"
+    alias la="eza -a --group-directories-first --color always --git -g --header --icons"
+elif (($+commands[lsd])); then
+    alias ls="lsd --group-dirs first --color always --icon always"
+    alias l="lsd --group-dirs first --color always --icon always"
+    alias ll="lsd --group-dirs first --color always --long --header --icon always"
+    alias lt="lsd --long --icon always --color always --sort time -r"
+    alias la="lsd --group-dirs first --color always --icon always -all"
+else
+    alias ls="ls --color=auto --group-directories-first"
+    alias l= "ls -lah --color=auto"
+    alias ll="ls -alF --color=auto"
+    alias la="ls -A --color=auto"
 fi
+
+# BAT CAT
+(($+commands[bat])) && { alias cat='bat' }
+
+# Extra settings for individual setups
+[[ ! -f ~/.zshrc-local ]] || source ~/.zshrc-local
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # Zoxcide Config
-eval "$(zoxide init zsh)"
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+(($+commands[zi])) && {
+	eval "$(zoxide init zsh)"
+	[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+	alias z="zi"
+}
 
 # fzf bindings
+(($+commands[fzf])) && {
 source <(fzf --zsh)
 alias fd='cd $(fzf --height 40% --reverse --walker=dir,follow,hidden --border --scheme=path)'
+}
 
 # Extracts any archive(s) (if unp isn't installed)
 extract() {
