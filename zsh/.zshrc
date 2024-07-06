@@ -128,7 +128,9 @@ alias .....='cd ../../../..'
 
 alias z="zi"
 
-source ~/.zshrc-local
+if [ -f "~/.zshrc-local" ]; then
+	source ~/.zshrc-local
+fi
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

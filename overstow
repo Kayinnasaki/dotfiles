@@ -1,0 +1,3 @@
+stow --adopt $1
+git restore .
+stow $1
