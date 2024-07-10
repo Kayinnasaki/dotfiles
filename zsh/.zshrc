@@ -143,6 +143,13 @@ fi
 # BAT CAT
 (($+commands[bat])) && { alias cat='bat' }
 
+# May be a bad idea. Going to try and remember to just use napt and remove the apt re-aliasing once it's in my muscle memory
+(($+commands[nala])) && { 
+    alias apt='\nala'
+    alias napt='\nala'
+    alias dapt='\apt'  
+}
+
 # Extra settings for individual setups
 [[ ! -f ~/.zshrc-local ]] || source ~/.zshrc-local
 
