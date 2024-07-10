@@ -1,4 +1,3 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
@@ -101,7 +100,13 @@ source $ZSH/oh-my-zsh.sh
 # else
 #   export EDITOR='mvim'
 # fi
-export EDITOR='mcedit'
+export EDITOR='nano'
+
+(($+commands[micro])) && {
+	alias nano='micro'
+	alias nanon='\nano'
+	export EDITOR='micro'
+}
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
@@ -144,11 +149,12 @@ fi
 (($+commands[bat])) && { alias cat='bat' }
 
 # May be a bad idea. Going to try and remember to just use napt and remove the apt re-aliasing once it's in my muscle memory
-(($+commands[nala])) && { 
-    alias apt='\nala'
-    alias napt='\nala'
-    alias dapt='\apt'  
-}
+# (not going to make this work in root so time to just get used to typing Nala)
+#(($+commands[nala])) && { 
+#    alias apt='\nala'
+#    alias napt='\nala'
+#    alias dapt='\apt'  
+#}
 
 # Extra settings for individual setups
 [[ ! -f ~/.zshrc-local ]] || source ~/.zshrc-local
